@@ -49,7 +49,8 @@ public class SecurityConfig {
                                         "/api-docs.yaml",
                                         "/api-docs/**",
                                         "/swagger-ui/**",
-                                        "/swagger-ui.html")
+                                        "/swagger-ui.html",
+                                        "api/alarms/schedule")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .exceptionHandling(e ->

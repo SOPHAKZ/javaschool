@@ -1,4 +1,4 @@
-package com.javaschool.service;
+package com.javaschool.service.user;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

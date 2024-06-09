@@ -1,8 +1,10 @@
-package com.javaschool.entity;
+package com.javaschool.entity.course;
 
+import com.javaschool.config.audit.UserDateAudit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -12,7 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tbl_courses")
-public class Course {
+@EqualsAndHashCode(callSuper = true)
+public class Course extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,22 +39,16 @@ public class Course {
     @Column(nullable = false)
     private double price;
     
-    @Column(nullable = false)
     private int duration; // in hours
     
-    @Column(nullable = false)
     private LocalDate startDate;
-    
-    @Column(nullable = false)
+
     private LocalDate endDate;
     
-    @Column(nullable = false)
     private String studyDays;
     
-    @Column(nullable = false)
-    private int startHour; // e.g., 8 (for 8 pm)
+    private String startHour; // e.g., 8 (for 8 pm)
     
-    @Column(nullable = false)
-    private int endHour; // e.g., 10 (for 10 pm)
+    private String endHour; // e.g., 10 (for 10 pm)
 
 }

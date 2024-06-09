@@ -13,7 +13,6 @@ import com.javaschool.repository.OptRepository;
 import com.javaschool.repository.RoleRepository;
 import com.javaschool.repository.UserRepository;
 import com.javaschool.security.JwtTokenProvider;
-import com.javaschool.service.SendEmailService;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -35,22 +34,6 @@ import java.util.concurrent.Executors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private RoleRepository roleRepository;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-//    @Autowired
-//    private OptRepository optRepository;
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
-//    @Autowired
-//    private JwtTokenProvider jwtTokenProvider;
-//    @Autowired
-//    private UserMapper userMapper;
-//    @Autowired
-//    private SendEmailService emailService;
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -74,7 +57,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.registerDtoToEntity(registerDTO);
 
         Set<Role> roles = new HashSet<>();
-        Role role = roleRepository.findByName("USER").orElseThrow(() -> new RuntimeException("Role not found"));
+        Role role = roleRepository.findByName("USER");
         roles.add(role);
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
@@ -92,7 +75,6 @@ public class UserServiceImpl implements UserService {
         userOtp.setExpiration(calendar.getTime());
 
         optRepository.save(userOtp);
-        System.out.println("TIME : "+ LocalDateTime.now());
         // send email code
 //        sendEmailService.sendEmail(registerDTO.getEmail(), otp);
         CompletableFuture.runAsync(() -> {
@@ -126,9 +108,9 @@ public class UserServiceImpl implements UserService {
         if (userOtpOptional.isPresent()) {
             UserOtp userOtp = userOtpOptional.get();
 
-            if (userOtp.getExpiration().before(new Date())) {
-                return false;
-            }
+//            if (userOtp.getExpiration().before(new Date())) {
+//                return false;
+//            }
             if (userOtp.getOneTimePassword() == otp) {
                 User user = userOtp.getUser();
                 user.setActive(true);
